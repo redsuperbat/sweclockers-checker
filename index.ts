@@ -22,6 +22,10 @@ const checkSweclockers = async () => {
   const cachedLatestDate = Date.parse(cachedLastestFeedItem.isoDate);
 
   if (latestDate > cachedLatestDate) {
+    console.log(
+      "Quick there is a graphics card on the loose!",
+      `${latestFeedItem.title} ${latestFeedItem.contentSnippet}`
+    );
     if (osType === "Linux") {
       notifier.notify(
         `${latestFeedItem.title} ${latestFeedItem.contentSnippet}`
