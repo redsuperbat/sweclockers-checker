@@ -52,7 +52,7 @@ const checkSweclockers = async () => {
     }
     if (transporter) {
       await transporter.sendMail({
-        to: ["max.netterberg@gmail.com"],
+        to: [process.env.EMAIL1 as string, process.env.EMAIL2 as string],
         subject: latestFeedItem.title,
         html: latestFeedItem.content,
         from: "noreply@rss-checker.com",
