@@ -13,12 +13,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "node-notifier": "^10.0.0",
+    "nodemailer": "^6.6.1",
     "rss-parser": "^3.12.0",
     "ts-node-dev": "^1.1.6",
     "typescript": "^4.3.2"
   },
   "devDependencies": {
-    "@types/node-notifier": "^8.0.0"
+    "@types/node-notifier": "^8.0.0",
+    "@types/nodemailer": "^6.4.2"
   }
 }

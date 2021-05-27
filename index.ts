@@ -1,6 +1,20 @@
 import Parser from "rss-parser";
 import notifier from "node-notifier";
 import os from "os";
+import Nodemailer from "nodemailer";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const createTransporter = () => {
+  if (!process.env.EMAIL_HOST) return;
+  return Nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+  });
+};
+
+const transporter = createTransporter();
 
 const osType = os.type() as "Linux" | "Darwin" | "Windows_NT";
 
@@ -34,6 +48,14 @@ const checkSweclockers = async () => {
       notifier.notify({
         title: latestFeedItem.title,
         open: latestFeedItem.link,
+      });
+    }
+    if (transporter) {
+      await transporter.sendMail({
+        to: ["max.netterberg@gmail.com"],
+        subject: latestFeedItem.title,
+        html: latestFeedItem.content,
+        from: "noreply@rss-checker.com",
       });
     }
   }
