@@ -84,4 +84,4 @@ setInterval(() => {
     "https://www.sweclockers.com/feeds/forum/trad/1625959",
     cachedFeed3080_3090
   );
-}, 1000 * 3);
+}, 1000 * 60);
