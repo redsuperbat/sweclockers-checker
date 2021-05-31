@@ -19,13 +19,17 @@ const transporter = createTransporter();
 const osType = os.type() as "Linux" | "Darwin" | "Windows_NT";
 
 const parser = new Parser();
+let cachedFeed3060_3070: Parser.Item[] | undefined;
+let cachedFeed3080_3090: Parser.Item[] | undefined;
 
-let cachedFeed: Parser.Item[] = [{ isoDate: "1980-05-27T08:07:04.000Z" }];
-
-const checkSweclockers = async () => {
-  const feed = await parser.parseURL(
-    "https://www.sweclockers.com/feeds/forum/trad/1625960"
-  );
+const checkSweclockers = async (
+  url: string,
+  cachedFeed: Parser.Item[] | undefined
+) => {
+  const feed = await parser.parseURL(url);
+  if (!cachedFeed) {
+    cachedFeed = feed.items;
+  }
   const latestFeedItem = feed.items[0];
   const cachedLastestFeedItem = cachedFeed[0];
 
@@ -62,9 +66,22 @@ const checkSweclockers = async () => {
   cachedFeed = feed.items;
 };
 
-checkSweclockers();
+checkSweclockers(
+  "https://www.sweclockers.com/feeds/forum/trad/1625960",
+  cachedFeed3060_3070
+);
+checkSweclockers(
+  "https://www.sweclockers.com/feeds/forum/trad/1625959",
+  cachedFeed3080_3090
+);
 setInterval(() => {
-  console.log("Checking sweclockers");
-
-  checkSweclockers();
-}, 1000 * 60);
+  console.log("Checking sweclockers", new Date().toLocaleString());
+  checkSweclockers(
+    "https://www.sweclockers.com/feeds/forum/trad/1625960",
+    cachedFeed3060_3070
+  );
+  checkSweclockers(
+    "https://www.sweclockers.com/feeds/forum/trad/1625959",
+    cachedFeed3080_3090
+  );
+}, 1000 * 3);
